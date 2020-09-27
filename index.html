@@ -1,87 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="css/index.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="./css/tablet.css" media="screen and (max-width: 800px)">
+    <link rel="stylesheet" href="./css/mobile.css" media="screen and (max-width: 600px)">
     <title>About SantasDev</title>
-</head>
-<body>
-	<header class="ab-header flex-center">
-		<figure class="ab-header_logo flex-center">
-			<img class="ab-header_page-icon circle-border-wrapper" src="assets/img/avatar.png">
-			<figcaption class="ab-header_logo-text">
-				<h2>Santas</h2>
-				<h5>Dev</h5>
-			</figcaption>
-		</figure>
-		<nav class="ab-header_navigation">
-			<ul class="flex-center">
-				<li class="ab-header_navigation-item"> <a class="ab-header_navigation-link" href="#about-me"> about me </a></li>
-				<li class="ab-header_navigation-item"> <a class="ab-header_navigation-link" href="#experiences"> resume </a></li>
-				<li class="ab-header_navigation-item"> <a class="ab-header_navigation-link" href="#events"> events </a></li>
-				<li class="ab-header_navigation-item"> <a class="ab-header_navigation-link" href="#projects"> projects </a></li>
-				<li class="ab-header_navigation-item"> <a class="ab-header_navigation-link" href="#contact"> contact </a></li>
-			</ul>
-		</nav>
-	</header>
-	<main>
-		<section class="ab-index flex-center">
-			<figure class="ab-index_picture circle-border-wrapper">
-				<img src="assets/img/img_ruiz.jpg"
-					alt="Cristian Leandro Henao Santa"
-				>
-			</figure>
-			<div class="ab-index_introduce">
-				<h1>Cristian Leandro</h1>
-				<h2>Henao Santa</h2>
-				<span>Electronic Engineer & Front-end developer</span>
-			</div>
-		</section>
-		<section id="about-me">
-			<article>
-				<h3>About me</h3>
-				<p>
-					Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ex sit cupiditate repellendus distinctio cum maiores voluptate harum quisquam quaerat, minus sapiente unde consequuntur illum et nesciunt provident. Fugiat, ex ratione?
-				</p>
-			</article>
-			<picture>
-				<source media="(min-width: 720px)" 
-					srcset="assets/img/img_santa_isabel-portrait.jpg">
-				<img 
-					src="assets/img/img_santa_isabel-landscape.jpg" 
-					alt="me in snowmontain">
-			</picture>
-		</section>
-		<section id="experiences">
-			<h3>Volunteers & experiences</h3>
-			<article>
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus corporis repudiandae accusantium nemo laborum quam sed porro obcaecati aliquid odit, unde maxime, architecto ipsum magnam perspiciatis quo similique repellendus ex.
-			</article>
-		</section>
-		<section id="events">
-			<h3>events</h3>
-			<article>
-				aquí va un carrusel
-			</article>
-		</section>
-		<section id="projects">
-			<h3>Projects</h3>
-			<article>
-				aqui va un grid con imagenes
-			</article>
-		</section>
-	</main>
-	<footer id="contact">
-		<div class="social-icons">
-			<em>twitter</em>
-			<em>Facebook</em>
-			<em>github</em>
-		</div>
-		<div class="contact-info">
-			<em>city</em>
-			<em>Mail</em>
-		</div>
-	</footer>
-</body>
+  </head>
+  <body>
+    <header class="ab-header flex-center">
+      <figure class="ab-header_logo flex-center">
+        <img
+          class="ab-header_page-icon circle-border-wrapper"
+          src="assets/img/avatar.png"
+        />
+        <figcaption class="ab-header_logo-text">
+          <h2>Santas</h2>
+          <h5>Dev</h5>
+        </figcaption>
+      </figure>
+      <nav class="ab-header_navigation">
+        <ul class="flex-center">
+          <li class="ab-header_navigation-item">
+            <a class="ab-header_navigation-link" href="#about-me"> about me </a>
+          </li>
+          <li class="ab-header_navigation-item">
+            <a class="ab-header_navigation-link" href="#experiences">
+              resume
+            </a>
+          </li>
+          <li class="ab-header_navigation-item">
+            <a class="ab-header_navigation-link" href="#events"> events </a>
+          </li>
+          <li class="ab-header_navigation-item">
+            <a class="ab-header_navigation-link" href="#projects"> projects </a>
+          </li>
+          <li class="ab-header_navigation-item">
+            <a class="ab-header_navigation-link" href="#contact"> contact </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <section class="ab-index">
+        <article class="flex-center content-wrapper">
+          <figure class="ab-index_picture circle-border-wrapper">
+            <img
+              src="assets/img/img_ruiz.jpg"
+              alt="Cristian Leandro Henao Santa"
+            />
+          </figure>
+          <div class="ab-index_introduce">
+            <h1>Cristian Leandro</h1>
+            <h2>Henao Santa</h2>
+            <span>Electronic Engineer & Front-end developer</span>
+          </div>
+        </article>
+      </section>
+      <section id="about-me" class="ab-about content-wrapper">
+        <picture class="ab-about_picture">
+          <source
+            media="(min-width: 720px)"
+            srcset="assets/img/img_santa_isabel-portrait.jpg"
+          />
+          <img
+            src="assets/img/img_santa_isabel-landscape.jpg"
+            alt="me in snowmontain"
+          />
+        </picture>
+        <article class="ab-about_text">
+          <h3 class="ab-about_title">About me</h3>
+          <p class="ab-about_content">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum.
+          </p>
+        </article>
+      </section>
+      <section id="experiences">
+        <h3>Volunteers & experiences</h3>
+        <article>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus
+          corporis repudiandae accusantium nemo laborum quam sed porro obcaecati
+          aliquid odit, unde maxime, architecto ipsum magnam perspiciatis quo
+          similique repellendus ex.
+        </article>
+      </section>
+      <section id="events">
+        <h3>events</h3>
+        <article>
+          aquí va un carrusel
+        </article>
+      </section>
+      <section id="projects">
+        <h3>Projects</h3>
+        <article>
+          aqui va un grid con imagenes
+        </article>
+      </section>
+    </main>
+    <footer id="contact">
+      <div class="social-icons">
+        <em>twitter</em>
+        <em>Facebook</em>
+        <em>github</em>
+      </div>
+      <div class="contact-info">
+        <em>city</em>
+        <em>Mail</em>
+      </div>
+    </footer>
+  </body>
 </html>

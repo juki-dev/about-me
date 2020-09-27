@@ -1,76 +1,104 @@
-:root{
-    --main-color: #222264;
-    --complementary-color: yellow;
+:root {
+  --main-color: #222264;
+  --complementary-color: yellow;
+}
+
+html {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .flex-center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .circle-border-wrapper {
-    border: 2px solid black;
-    border-radius: 100%;
-    background-color: white;
+  border: 2px solid black;
+  border-radius: 100%;
+  background-color: white;
 }
 
-.ab-header{
-    justify-content: space-between;
-    padding: 8px;
-    background-color: var(--main-color);
-    position: fixed;
-    width: 100%;
+.content-wrapper {
+  max-width: 1280px;
+  margin: auto;
+  padding-top: 76px !important;
+}
+
+.ab-header {
+  justify-content: space-between;
+  padding: 8px;
+  background-color: var(--main-color);
+  position: fixed;
+  height: 66px;
+  width: 100%;
 }
 .ab-header_page-icon {
-    width: 50px;
-    height: 50px;
-    overflow: hidden;
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
 }
-.ab-header_logo-text{
-    color: white;
-    margin-left: 8px;
-    line-height: 16px;
+.ab-header_logo-text {
+  color: white;
+  margin-left: 8px;
+  line-height: 16px;
 }
 .ab-header_navigation ul {
-    list-style: none;
+  list-style: none;
 }
 .ab-header_navigation-item {
-    padding: 0px 8px;
+  padding: 0px 8px;
 }
 .ab-header_navigation-link {
-    font-weight: bold;
-    color: white;
-    text-decoration: none;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
 }
 .ab-index {
-    height: 100vh;
-    width: 100%;
-    background-color: var(--main-color);
-    flex-direction: column;
+  background-color: var(--main-color);
+}
+.ab-index .content-wrapper{
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
 }
 .ab-index_picture {
-    overflow: hidden;
-    height: 200px;
-    width: 200px;
+  overflow: hidden;
+  height: 200px;
+  width: 200px;
 }
 .ab-index_picture > img:nth-child(1) {
-    margin: auto;
-    margin-left: -20px;
+  margin: auto;
+  margin-left: -20px;
 }
 .ab-index_introduce {
-    color: white;
-    text-align: center;
+  color: white;
+  text-align: center;
 }
 .ab-index_introduce h1 {
-    font-size: 4rem;
+  font-size: 4rem;
 }
 .ab-index_introduce h2 {
-    font-size: 3rem;
+  font-size: 3rem;
+}
+
+#about-me {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+.ab-about_picture {
+  flex: 1;
+}
+
+.ab-about_text {
+  flex: 1;
 }
