@@ -29,7 +29,7 @@ html {
 .content-wrapper {
   max-width: 1280px;
   margin: auto;
-  padding-top: 76px !important;
+  padding-top: 66px;
 }
 
 .ab-header {
@@ -89,16 +89,23 @@ html {
   font-size: 3rem;
 }
 
-#about-me {
+.ab-about {
   display: flex;
   flex-wrap: wrap;
-  padding: 20px;
 }
-
 .ab-about_picture {
+  text-align: center;
   flex: 1;
+  padding: 0px 10px;
 }
-
 .ab-about_text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   flex: 1;
+  padding: 0px 10px;
+}
+.ab-about_title {
+  font-size: 2.5rem;
+  margin: 20px 0px;
 }
