@@ -1,6 +1,6 @@
 :root {
   --main-color: #222264;
-  --complementary-color: yellow;
+  --complementary-color: #30303030;
 }
 
 html {
@@ -39,6 +39,10 @@ html {
   position: fixed;
   height: 66px;
   width: 100%;
+}
+.ab-title {
+  font-size: 2.5rem;
+  color: var(--main-color);
 }
 .ab-header_page-icon {
   width: 50px;
@@ -106,6 +110,23 @@ html {
   padding: 0px 10px;
 }
 .ab-about_title {
-  font-size: 2.5rem;
   margin: 20px 0px;
+}
+.ab-experiences {
+  text-align: center;
+}
+.ab-experiences_title {
+  margin: 0px auto 20px;
+}
+.ab-experiences_path_block {
+  display: flex;
+}
+.ab-experiences_path {
+  padding: 20px;
+}
+.ab-experiences_path-item {
+  border-radius: 4px;
+  background-color: var(--complementary-color);
+  padding: 8px;
+  margin: 4px;
 }
