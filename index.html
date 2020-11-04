@@ -15,6 +15,7 @@
       href="./css/mobile.css"
       media="screen and (max-width: 600px)"
     />
+    <script src="https://use.fontawesome.com/ec2582386e.js"></script>
     <title>About SantasDev</title>
   </head>
   <body>
@@ -52,7 +53,7 @@
       </nav>
     </header>
     <main>
-      <section class="ab-index">
+      <section class="ab-index color-inverted">
         <article class="flex-center content-wrapper">
           <figure class="ab-index_picture circle-border-wrapper">
             <img
@@ -171,28 +172,45 @@
           </div>
         </article>
       </section>
-      <section id="events">
-        <h3>events</h3>
-        <article>
-          aquí va un carrusel
+      <section id="events" class="ab-events color-inverted">
+        <article class="content-wrapper">
+          <h3 class="ab-title ab-events_title">events</h3>
+          <div class="ab-carousel">
+            <div class="ab-carousel_button ab-carousel_button_left">
+              <i class="fa fa-angle-left"></i>
+            </div>
+            <div class="ab-carousel_content">
+              <div class="ab-events_resume">
+                <h5 class="ab-events_name">
+                  Young professional
+                </h5>
+                <p class="ab-events_description">
+                  Just a yp event
+                </p>
+              </div>
+            </div>
+            <div class="ab-carousel_button ab-carousel_button_right">
+              <i class="fa fa-angle-right"></i>
+            </div>
+          </div>
         </article>
       </section>
-      <section id="projects">
-        <h3>Projects</h3>
+      <section id="projects" class="ab-projects content-wrapper">
+        <h3 class="ab-title">Projects</h3>
         <article>
           aqui va un grid con imagenes
         </article>
       </section>
     </main>
-    <footer id="contact">
+    <footer id="contact" class="ab-footer">
       <div class="social-icons">
-        <em>twitter</em>
-        <em>Facebook</em>
-        <em>github</em>
+        <i class="fab fa-twitter-square"></i>
+        <i class="fab fa-facebook-square"></i>
+        <i class="fab fa-github-square"></i>
       </div>
       <div class="contact-info">
-        <em>city</em>
-        <em>Mail</em>
+        <span><i class="fas fa-city"></i> Manizales, Caldas</span>
+        <span><i class="fas fa-envelope"></i> leandrosanta1@hotmail.com</span>
       </div>
     </footer>
   </body>

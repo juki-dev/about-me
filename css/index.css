@@ -1,6 +1,6 @@
 :root {
   --main-color: #222264;
-  --complementary-color: #30303030;
+  --complementary-color: #d8d8d8;
 }
 
 html {
@@ -41,6 +41,8 @@ html {
   width: 100%;
 }
 .ab-title {
+  margin: 0px auto 20px;
+  text-align: center;
   font-size: 2.5rem;
   color: var(--main-color);
 }
@@ -65,8 +67,12 @@ html {
   color: white;
   text-decoration: none;
 }
-.ab-index {
+.color-inverted {
   background-color: var(--main-color);
+  color: white;
+}
+.color-inverted .ab-title {
+  color: var(--complementary-color);
 }
 .ab-index .content-wrapper{
   flex-direction: column;
@@ -115,7 +121,7 @@ html {
 .ab-experiences {
   text-align: center;
 }
-.ab-experiences_title {
+.ab-experiences_title, .ab-events_title {
   margin: 0px auto 20px;
 }
 .ab-experiences_path_block {
@@ -129,4 +135,29 @@ html {
   background-color: var(--complementary-color);
   padding: 8px;
   margin: 4px;
+}
+.ab-events .ab-carousel {
+  background-image: url('../assets/img/YP-event.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: calc(100vh - 120px);
+}
+.ab-carousel {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+}
+.ab-carousel_button {
+  flex:1;
+  text-align: center;
+  margin: auto;
+  font-size: 30px;
+}
+.ab-carousel_content {
+  flex:10;
+}
+.ab-footer{
+  background-color: var(--complementary-color);
+  padding: 50px;
 }
