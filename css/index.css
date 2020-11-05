@@ -137,11 +137,21 @@ html {
   margin: 4px;
 }
 .ab-events .ab-carousel {
+  height: calc(100vh - 120px);
+  position: relative;
+  background: black;
+}
+.ab-events .ab-carousel::before {
   background-image: url('../assets/img/YP-event.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  height: calc(100vh - 120px);
+  content: '';
+  width: 100%;
+  position: absolute;
+  z-index: 1;
+  height: 100%;
+  opacity: 0.6;
 }
 .ab-carousel {
   display: flex;
@@ -153,9 +163,25 @@ html {
   text-align: center;
   margin: auto;
   font-size: 30px;
+  position: relative;
+  z-index: 2;
 }
 .ab-carousel_content {
+  position: relative;
+  z-index: 2;
   flex:10;
+  padding: 40px;
+}
+.ab-events_resume {
+  text-align: center;
+}
+.ab-events_name {
+  font-size: 3.5rem;
+}
+.ab-events_description {
+  font-size: 1.2rem;
+  margin: 20px;
+  line-height: 1.4;
 }
 .ab-footer{
   background-color: var(--complementary-color);
