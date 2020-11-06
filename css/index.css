@@ -183,6 +183,23 @@ html {
   margin: 20px;
   line-height: 1.4;
 }
+.ab-projects {
+  margin-bottom: 40px;
+}
+.ab-projects_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-gap: 20px;
+  justify-items: center;
+}
+.ab-projects_item {
+  width: 200px;
+  height: 200px;
+  background: var(--complementary-color);
+  border-radius: 8px;
+}
+
+
 .ab-footer{
   background-color: var(--complementary-color);
   padding: 50px;
