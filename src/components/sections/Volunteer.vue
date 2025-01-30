@@ -6,5 +6,5 @@
 </template>
 
 <script setup >
-    import VolunteerSection from "@/components/sections/events/VolunteeringSection.vue"
+    import VolunteerSection from "@/components/sections/events/VolunteeringSection.vue";
 </script>
