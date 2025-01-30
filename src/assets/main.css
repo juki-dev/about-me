@@ -1,0 +1,39 @@
+@import './base.css';
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circle-border-wrapper {
+  border: 2px solid black;
+  border-radius: 100%;
+  background-color: white;
+}
+
+.content-wrapper {
+  max-width: 1280px;
+  margin: auto;
+  padding-top: 66px;
+}
+
+.content-wrapper section{
+  margin: 30px auto 0px;
+}
+
+.color-inverted {
+  background-color: var(--main-color);
+  color: white;
+}
+
+.color-inverted .ab-title {
+  color: var(--complementary-color);
+}
+
+.ab-title {
+  margin: 0px auto 20px;
+  text-align: center;
+  font-size: 2.5rem;
+  color: var(--main-color);
+}
