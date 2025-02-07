@@ -32,7 +32,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    enrironment:
+    environment:
       name: production
       url: $DEPLOY_URL
     steps:
