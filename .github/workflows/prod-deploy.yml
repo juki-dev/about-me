@@ -34,7 +34,7 @@ jobs:
     needs: build
     environment:
       name: prod
-      url: ${{ env.DEPLOY_URL }}
+      url: ${{ vars.DEPLOY_URL }}
     steps:
     - name: Download build files
       uses: actions/download-artifact@v4
@@ -48,4 +48,4 @@ jobs:
         aws-region: us-east-1
 
     - name: Deploy static site to S3 bucket
-      run: aws s3 sync ./ s3://${{env.BUCKET_NAME}} --delete
+      run: aws s3 sync ./ s3://${{vars.BUCKET_NAME}} --delete
