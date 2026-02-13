@@ -1,5 +1,5 @@
 <template>
-    <TlWrap v-for="experience in experiences" :title="experience.title" :timeline-items="experience.items"/>
+    <TlWrap v-for="(experience, index) in experiences" :key="index" :title="experience.title" :timeline-items="experience.items"/>
 </template>
 
 <script setup>
