@@ -1,3 +1,12 @@
+<script setup lang="ts">
+import { useRoute } from 'vue-router'
+import { computed } from 'vue'
+
+const route = useRoute()
+
+const isProjectsActive = computed(() => route.name === 'projects' || route.name === 'project-detail')
+</script>
+
 <template>
     <header class="ab-header flex-center">
       <figure class="ab-header_logo flex-center">
@@ -24,7 +33,13 @@
             <a class="ab-header_navigation-link" href="#events"> events </a>
           </li>
           <li class="ab-header_navigation-item">
-            <a class="ab-header_navigation-link" href="#projects"> projects </a>
+            <RouterLink 
+              to="/projects" 
+              class="ab-header_navigation-link"
+              :class="{ 'ab-header_navigation-link--active': isProjectsActive }"
+            > 
+              projects 
+            </RouterLink>
           </li>
           <li class="ab-header_navigation-item">
             <a class="ab-header_navigation-link" href="#contact"> contact </a>
@@ -71,5 +86,10 @@
   font-weight: bold;
   color: white;
   text-decoration: none;
+}
+
+.ab-header_navigation-link--active {
+  border-bottom: 2px solid white;
+  padding-bottom: 2px;
 }
 </style>
