@@ -1,19 +1,18 @@
 <script setup lang="ts">
-import {  RouterView } from 'vue-router'
-import AboutMenuVue from './components/AboutMenu.vue';
-import ContactMenuVue from './components/ContactMenu.vue';
+import NavBar from './components/layout/NavBar.vue'
+import AppFooter from './components/layout/AppFooter.vue'
 </script>
 
 <template>
-  <AboutMenuVue />
-  <main class="about-main">
+  <div class="jd-app">
+    <NavBar />
     <RouterView />
-  </main>
-  <ContactMenuVue />
+    <AppFooter />
+  </div>
 </template>
 
 <style scoped>
-  .about-main {
-    padding-top: 66px;
-  }
+.jd-app {
+  min-height: 100vh;
+}
 </style>

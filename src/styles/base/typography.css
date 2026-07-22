@@ -1,0 +1,11 @@
+/*
+ * Typography tokens. Barlow Condensed for headings, Barlow for body copy.
+ * Swap the font-family values (and the @import) to re-theme the typeface.
+ */
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;700&family=Barlow+Condensed:wght@400;600&display=swap');
+
+:root {
+  --font-heading: 'Barlow Condensed', system-ui, sans-serif;
+  --font-heading-weight: 600;
+  --font-body: 'Barlow', system-ui, sans-serif;
+}

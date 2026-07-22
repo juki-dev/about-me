@@ -1,15 +1,17 @@
-<template>
-  <LandingView />
-  <AboutSection />
-  <EducationView />
-  <VolunteerView />
-  <JobExperience />
-</template>
-
 <script setup lang="ts">
-import LandingView from "../components/sections/LandingView.vue"
-import AboutSection from "../components/sections/About.vue";
-import EducationView from "../components/sections/education/MainView.vue";
-import VolunteerView from "../components/sections/Volunteer.vue";
-import JobExperience from "../components/sections/experience/JobExperience.vue";
+import HeroSection from '../components/home/HeroSection.vue'
+import TrayectoriaSection from '../components/home/TrayectoriaSection.vue'
+import ProjectsPreview from '../components/home/ProjectsPreview.vue'
+import BlogPreview from '../components/home/BlogPreview.vue'
+import ContactSection from '../components/home/ContactSection.vue'
 </script>
+
+<template>
+  <div>
+    <HeroSection />
+    <TrayectoriaSection />
+    <ProjectsPreview />
+    <BlogPreview />
+    <ContactSection />
+  </div>
+</template>
