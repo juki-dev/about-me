@@ -34,7 +34,7 @@ import { profile, techTags } from '../../data/profile'
       <polygon points="0,540 200,450 400,530 620,440 820,530 1000,470 1000,600 0,600" fill="var(--color-accent-900)" />
     </svg>
 
-    <ImageSlot class="hero-photo" shape="circle" placeholder="Tu foto" />
+    <ImageSlot :src="profile.photo" class="hero-photo" shape="circle" placeholder="Tu foto" />
 
     <div class="hero-name">
       <h1>{{ profile.firstName }}</h1>

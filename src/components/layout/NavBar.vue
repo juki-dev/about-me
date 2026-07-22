@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ImageSlot from './ImageSlot.vue'
+import { profile } from '../../data/profile'
 
 const links = [
   { label: 'About me', hash: '#about' },
@@ -12,7 +13,7 @@ const links = [
 <template>
   <nav class="nav jd-nav">
     <RouterLink :to="{ path: '/' }" class="jd-nav-brand">
-      <ImageSlot shape="circle" placeholder="Logo" class="jd-nav-logo" />
+      <ImageSlot :src="profile.logo" shape="circle" placeholder="Logo" class="jd-nav-logo" />
       <div class="jd-nav-wordmark">
         <div>JUKI</div>
         <div class="jd-nav-wordmark-accent">DEV</div>
