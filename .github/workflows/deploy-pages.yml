@@ -4,7 +4,7 @@ name: Deploy to GitHub Pages (dev)
 # portfolio to GitHub Pages at https://juki-dev.github.io/about-me/.
 on:
   push:
-    branches: ['re-born']
+    branches: ['main']
   workflow_dispatch:
 
 # Allow the workflow to publish to Pages via OIDC.
