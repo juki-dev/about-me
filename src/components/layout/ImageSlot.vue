@@ -5,9 +5,10 @@ import { resolvePublicAsset } from '../../utils/assets'
 // Production stand-in for the design mock's <image-slot>: renders the real
 // image once one is set (frontmatter `image`, or a logo path), otherwise a
 // dashed blueprint placeholder so the layout never breaks while assets are
-// still missing. `src` is a path relative to public/ (e.g.
-// images/projects/foo.jpg); it's resolved against the base URL here so the
-// same value works locally and under the GitHub Pages subpath.
+// still missing. `src` is either a path relative to public/ (e.g.
+// images/logo/juki-dev.png), resolved against the base URL here so the same
+// value works locally and under the GitHub Pages subpath, or a URL already
+// resolved by src/content/images.ts, which passes through untouched.
 const props = withDefaults(
   defineProps<{
     src?: string | null

@@ -1,70 +1,96 @@
 # Imágenes del portafolio
 
-Esta carpeta gestiona **todas las imágenes de contenido** del sitio (fotos,
-logos, capturas de proyectos, portadas del blog).
+El sitio tiene **dos lugares** para imágenes, según a qué pertenezcan.
 
-## ¿Por qué `public/` y no `src/assets/`?
+## 1. Imágenes de contenido → dentro de la carpeta del post
 
-Se eligió `public/` a propósito:
+Cada post y cada proyecto es una **carpeta**: un `index.md` con el texto y,
+al lado, las imágenes que usa. El nombre de la carpeta es el slug de la URL.
 
-- Las imágenes de **proyectos** y **blog** se declaran como una ruta de texto
-  en el _frontmatter_ de los archivos markdown de `content/`
-  (`image: images/projects/mi-proyecto.jpg`). `public/` mapea directo a esas
-  rutas por nombre, sin necesidad de `import` ni de `import.meta.glob` en
-  código — coherente con el flujo "agregar un `.md` y listo".
-- El autor deja caer un archivo aquí y lo referencia por su ruta; no hay paso
-  de build por imagen.
+```
+content/blog/mi-post/
+├── index.md
+├── portada.jpg
+├── diagrama.png
+└── capturas/
+    └── antes.png
+```
 
-Contrapartida: los archivos en `public/` **no** pasan por el optimizado/hash
-de Vite. Para un portafolio es un intercambio aceptable. Si en el futuro se
-requiere optimización agresiva (hashing, `srcset`, compresión), esas imágenes
-puntuales pueden moverse a `src/assets/` e importarse desde el componente.
+Y se referencian con una ruta **relativa al `index.md`**, que casi siempre es
+solo el nombre del archivo:
 
-## Cómo referenciar una imagen
+```markdown
+---
+image: portada.jpg
+---
 
-Siempre con una ruta **relativa a `public/`** (sin `/` inicial). El helper
-`src/utils/assets.ts` le antepone la BASE_URL, así funciona igual en local
-(`/`) y en GitHub Pages (`/about-me/`). También se aceptan URLs absolutas
-(`https://…`).
+![Diagrama del flujo](diagrama.png)
+![Estado previo](capturas/antes.png)
+```
 
-- Proyectos / Blog → campo `image` en el frontmatter del `.md`.
+Eso es todo: dejas el archivo en la carpeta y lo nombras. Vite las indexa en
+build (`src/content/images.ts`), les pone hash de contenido y les antepone la
+BASE_URL, así que la misma referencia funciona en local (`/`) y en GitHub
+Pages (`/about-me/`) sin editar nada después de desplegar.
+
+Crear una entrada nueva es crear la carpeta con su `index.md` dentro. Una
+carpeta sin `index.md` no se publica, y el build lo avisa en vez de dejarla
+pasar en silencio.
+
+Ventajas de este camino sobre `public/`:
+
+- **Cache-busting automático.** El nombre publicado incluye un hash del
+  contenido; si cambias la imagen, cambia la URL y el navegador no sirve la
+  vieja.
+- **El build falla si falta la imagen.** `npm run check:images` (parte de
+  `npm run build`) recorre los `index.md` y corta el build ante una referencia
+  que no existe, en vez de dejar un `<img>` roto en producción.
+- **El post es una unidad.** Lo mueves, lo archivas o lo borras entero, sin
+  imágenes huérfanas en otra carpeta.
+- Las imágenes menores a 4 KB se incrustan como data URI, sin pedido HTTP.
+
+### Escapes disponibles
+
+- URL absoluta (`https://…`) o `data:` → pasa intacta.
+- `images/…` → sigue apuntando a `public/images/` (útil para algo compartido
+  entre varios posts, como el logo).
+- `/content/blog/otro-post/x.png` → la carpeta de otro post.
+
+## 2. Imágenes de interfaz → `public/images/`
+
+Foto de perfil, logo y logos de trayectoria no pertenecen a ningún `.md`: son
+datos de la interfaz. Siguen en `public/images/**` y se referencian con una
+ruta relativa a `public/` (sin `/` inicial), p. ej.
+`images/trayectoria/edu-1.png`. `src/utils/assets.ts` les antepone la
+BASE_URL.
+
 - Foto y logo → `photo` / `logo` en `src/data/profile.ts`.
 - Logos de trayectoria → campo `logo` en `src/data/trayectoria.ts`.
 
-Mientras el campo esté en `null`, la interfaz muestra un marcador de posición
-(placeholder), así que el layout nunca se rompe por una imagen faltante.
+Mientras el campo esté en `null`, la interfaz muestra un marcador de posición,
+así que el layout nunca se rompe por una imagen faltante.
 
 ## Imágenes pendientes
 
-Nombres sugeridos; ajústalos si prefieres, solo mantén sincronizada la ruta
-en el dato/frontmatter correspondiente.
-
-### Perfil — `profile/`
+### Perfil — `public/images/profile/`
 - [ ] `images/profile/avatar.jpg` — foto del hero (cuadrada, ~440×440) →
   `profile.photo`
 
-### Marca — `logo/`
-- [ ] `images/logo/juki-dev.png` — logo de la barra de navegación
-  (cuadrado/circular) → `profile.logo`
+### Marca — `public/images/logo/`
+- [x] `images/logo/juki-dev.png` — logo de la barra de navegación
 
-### Proyectos — `projects/` (campo `image` en cada `.md`)
-- [ ] `images/projects/sensor-fleet-dashboard.jpg`
-- [ ] `images/projects/inventory-manager.jpg`
-- [ ] `images/projects/cicd-pipeline-toolkit.jpg`
-- [ ] `images/projects/telemetry-analytics.jpg`
-- [ ] `images/projects/client-portal.jpg`
-- [ ] `images/projects/edge-gateway-firmware.jpg`
-
-### Blog — `blog/` (campo `image` en cada `.md`)
-- [ ] `images/blog/disenando-arquitecturas-iot-resilientes.jpg`
-- [ ] `images/blog/de-monolito-a-microservicios-con-docker.jpg`
-- [ ] `images/blog/typescript-en-equipos-full-stack.jpg`
-
-### Trayectoria — `trayectoria/` (campo `logo` en `src/data/trayectoria.ts`)
+### Trayectoria — `public/images/trayectoria/` (campo `logo` en `src/data/trayectoria.ts`)
 - [ ] `images/trayectoria/course-1.png` … `course-4.png`
 - [ ] `images/trayectoria/edu-1.png`, `edu-2.png`
 - [ ] `images/trayectoria/vol-1.png` … `vol-3.png`
 
-> Nota: para imágenes **dentro del cuerpo** de un markdown, usa una URL
-> absoluta (`https://…`) o una ruta que empiece por la BASE_URL, ya que esas
-> no pasan por el helper de resolución.
+### Portadas de contenido (campo `image` en cada `index.md`, junto a él)
+- [ ] `content/projects/sensor-fleet-dashboard/portada.jpg`
+- [ ] `content/projects/inventory-manager/portada.jpg`
+- [ ] `content/projects/cicd-pipeline-toolkit/portada.jpg`
+- [ ] `content/projects/telemetry-analytics/portada.jpg`
+- [ ] `content/projects/client-portal/portada.jpg`
+- [ ] `content/projects/edge-gateway-firmware/portada.jpg`
+- [ ] `content/blog/disenando-arquitecturas-iot-resilientes/portada.jpg`
+- [ ] `content/blog/de-monolito-a-microservicios-con-docker/portada.jpg`
+- [ ] `content/blog/typescript-en-equipos-full-stack/portada.jpg`
