@@ -1,0 +1,119 @@
+name: Deploy to S3 + CloudFront (prod)
+
+# Production deploys: every push to `master` builds the site and syncs it to
+# the S3 bucket that CloudFront serves. Dev previews live on `dev` and go
+# to GitHub Pages (deploy-pages.yml).
+#
+# Required repository configuration:
+#   Secrets  AWS_ROLE_ARN                 IAM role GitHub assumes via OIDC
+#            CLOUDFRONT_DISTRIBUTION_ID   distribution in front of the bucket
+#   Variables AWS_REGION                  e.g. us-east-1
+#             S3_BUCKET                   bucket name (no s3:// prefix)
+on:
+  push:
+    branches: ['master']
+  workflow_dispatch:
+
+# id-token lets the job request an OIDC token to assume the AWS role, so no
+# long-lived access keys live in the repo.
+permissions:
+  contents: read
+  id-token: write
+
+# Never run two prod deploys at once, and never cancel one mid-sync — a
+# half-applied `aws s3 sync --delete` would leave the bucket inconsistent.
+concurrency:
+  group: 'production'
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+    env:
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      S3_BUCKET: ${{ vars.S3_BUCKET }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify deploy configuration
+        # Fail loudly here instead of half-way through the sync. Secrets go
+        # through env, never interpolated straight into the shell.
+        env:
+          ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
+          DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+        run: |
+          missing=()
+          [ -n "$AWS_REGION" ] || missing+=("vars.AWS_REGION")
+          [ -n "$S3_BUCKET" ] || missing+=("vars.S3_BUCKET")
+          [ -n "$ROLE_ARN" ] || missing+=("secrets.AWS_ROLE_ARN")
+          [ -n "$DISTRIBUTION_ID" ] || missing+=("secrets.CLOUDFRONT_DISTRIBUTION_ID")
+          if [ ${#missing[@]} -gt 0 ]; then
+            echo "Missing required configuration: ${missing[*]}" >&2
+            exit 1
+          fi
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type-check and build
+        # No BASE_PATH: CloudFront serves the site from the domain root, so
+        # vite.config.ts falls back to base '/'.
+        run: npm run build
+
+      - name: Add SPA fallback
+        # Only used when the origin is an S3 *website* endpoint (error
+        # document = 404.html). With a REST origin + OAC, configure
+        # CloudFront custom error responses 403/404 -> /index.html (200).
+        run: cp dist/index.html dist/404.html
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Upload hashed assets
+        # Vite fingerprints everything under /assets, so it can be cached
+        # forever — a new build produces new filenames.
+        run: |
+          aws s3 sync dist/assets "s3://${S3_BUCKET}/assets" \
+            --delete \
+            --cache-control "public, max-age=31536000, immutable"
+
+      - name: Upload static files
+        # Images and other public/ files keep stable names, so they get a
+        # short TTL and rely on the invalidation below when they change.
+        run: |
+          aws s3 sync dist "s3://${S3_BUCKET}" \
+            --delete \
+            --exclude "assets/*" \
+            --exclude "*.html" \
+            --cache-control "public, max-age=3600"
+
+      - name: Upload HTML entry points
+        # index.html / 404.html must never be cached: they reference the
+        # hashed bundles and have to reflect the deploy immediately.
+        run: |
+          aws s3 sync dist "s3://${S3_BUCKET}" \
+            --delete \
+            --exclude "*" \
+            --include "*.html" \
+            --cache-control "no-cache, must-revalidate" \
+            --content-type "text/html; charset=utf-8"
+
+      - name: Invalidate CloudFront cache
+        env:
+          DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id "$DISTRIBUTION_ID" \
+            --paths "/*"
