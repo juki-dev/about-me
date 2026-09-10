@@ -1,0 +1,21 @@
+{
+  "app": "node bin/infra.ts",
+  "watch": {
+    "include": ["**"],
+    "exclude": ["README.md", "cdk*.json", "node_modules", "cdk.out"]
+  },
+  "context": {
+    "github:owner": "juki-dev",
+    "github:repo": "about-me",
+    "github:branch": "master",
+
+    "//": "Custom domain — both or neither. The certificate MUST be in us-east-1.",
+    "site:domainName": "",
+    "site:certificateArn": "",
+
+    "@aws-cdk/aws-iam:minimizePolicies": true,
+    "@aws-cdk/core:checkSecretUsage": true,
+    "@aws-cdk/aws-s3:createDefaultLoggingPolicy": true,
+    "@aws-cdk/aws-cloudfront:useOriginAccessControl": true
+  }
+}

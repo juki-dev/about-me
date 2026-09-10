@@ -1,10 +1,11 @@
 name: Deploy to GitHub Pages (dev)
 
-# Dev-review deploys: every push to the working branch publishes the
-# portfolio to GitHub Pages at https://juki-dev.github.io/about-me/.
+# Dev-review deploys: every push to `dev` publishes the portfolio to
+# GitHub Pages at https://juki-dev.github.io/about-me/.
+# Production lives on `master` and is deployed by deploy-prod.yml.
 on:
   push:
-    branches: ['master']
+    branches: ['dev']
   workflow_dispatch:
 
 # Allow the workflow to publish to Pages via OIDC.
