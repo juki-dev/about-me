@@ -9,6 +9,9 @@
     "github:repo": "about-me",
     "github:branch": "master",
 
+    "//github:environment": "Must match the `environment:` in deploy-prod.yml. Empty = the job declares no environment.",
+    "github:environment": "production",
+
     "//": "Custom domain — both or neither. The certificate MUST be in us-east-1.",
     "site:domainName": "",
     "site:certificateArn": "",

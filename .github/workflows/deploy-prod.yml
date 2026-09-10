@@ -29,6 +29,12 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    # This environment is load-bearing twice over: it scopes the secrets and
+    # variables below, and it decides the OIDC subject claim GitHub mints —
+    # repo:<owner>/<repo>:environment:production, not the branch-based one.
+    # The deploy role's trust policy matches that exact subject, so renaming
+    # or removing this block breaks the deploy. Which branches may use the
+    # environment is set by its deployment branch policy in GitHub.
     environment:
       name: production
     env:
