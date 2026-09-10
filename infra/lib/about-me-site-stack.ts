@@ -28,6 +28,9 @@ export class AboutMeSiteStack extends Stack {
     const owner = this.node.tryGetContext('github:owner') as string
     const repo = this.node.tryGetContext('github:repo') as string
     const branch = this.node.tryGetContext('github:branch') as string
+    const environment = this.node.tryGetContext('github:environment') as
+      | string
+      | undefined
     // cdk.json ships these as empty strings, so collapse blank to undefined
     // rather than letting "" flow through as a configured value.
     const optionalContext = (key: string): string | undefined => {
@@ -113,15 +116,29 @@ export class AboutMeSiteStack extends Stack {
         `arn:aws:iam::${this.account}:oidc-provider/${GITHUB_OIDC_DOMAIN}`,
       )
 
+    // The subject a GitHub Actions token carries depends on whether the job
+    // declares an `environment:`. A job that does gets
+    // repo:<owner>/<repo>:environment:<name>; one that doesn't gets
+    // repo:<owner>/<repo>:ref:refs/heads/<branch>. Only ever one of the two,
+    // so this has to mirror what deploy-prod.yml actually declares.
+    const subject = environment
+      ? `repo:${owner}/${repo}:environment:${environment}`
+      : `repo:${owner}/${repo}:ref:refs/heads/${branch}`
+
     const deployRole = new iam.Role(this, 'GitHubActionsDeployRole', {
       description: `Assumed by GitHub Actions to deploy ${owner}/${repo} to production`,
       assumedBy: new iam.OpenIdConnectPrincipal(githubOidcProvider, {
         StringEquals: {
           [`${GITHUB_OIDC_DOMAIN}:aud`]: 'sts.amazonaws.com',
           // Exact match rather than StringLike on purpose: a wildcard in the
-          // subject would let any branch — or any pull request, including
-          // one opened from a fork — assume this role and write to prod.
-          [`${GITHUB_OIDC_DOMAIN}:sub`]: `repo:${owner}/${repo}:ref:refs/heads/${branch}`,
+          // subject would let any branch — or any pull request, including one
+          // opened from a fork — assume this role and write to prod.
+          //
+          // Note what an environment subject does NOT say: which branch the
+          // run came from. That restriction moves to the environment's
+          // deployment branch policy in GitHub, which must be pinned to
+          // `${branch}`. See infra/README.md.
+          [`${GITHUB_OIDC_DOMAIN}:sub`]: subject,
         },
       }),
     })

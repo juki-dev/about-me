@@ -58,13 +58,37 @@ missing one fails the run early instead of half-way through the S3 sync.
 
 Everything lives in the `context` block of `cdk.json`:
 
-- `github:owner` / `github:repo` / `github:branch` — build the subject that the
-  role's trust policy matches **exactly**. Change `github:branch` and only that
-  branch can deploy to production.
+- `github:owner` / `github:repo` / `github:branch` / `github:environment` —
+  build the subject that the role's trust policy matches **exactly**. Which of
+  the last two is used depends on `github:environment`, and it has to mirror
+  `deploy-prod.yml`:
+
+  | `deploy-prod.yml` declares | Subject GitHub mints | Set `github:environment` to |
+  | -------------------------- | -------------------- | --------------------------- |
+  | `environment: production`  | `repo:<owner>/<repo>:environment:production` | `production` |
+  | no `environment:`          | `repo:<owner>/<repo>:ref:refs/heads/master`  | `""` (empty) |
+
+  Get this wrong and the run dies at *Configure AWS credentials* with
+  `Not authorized to perform sts:AssumeRoleWithWebIdentity` — the role and the
+  provider are fine, the subject simply doesn't match.
 - `site:domainName` / `site:certificateArn` — optional custom domain, both or
   neither. **The certificate must be in `us-east-1`**; CloudFront accepts
   certificates from no other region, whatever region the rest of the stack is
   in. Leave both empty to serve from the generated `*.cloudfront.net` name.
+
+## Pin the environment to a branch
+
+**Required while `github:environment` is set.** An environment subject says
+which environment the job used, and nothing about which branch it ran from, so
+on its own it would let a run from any branch reach production. GitHub enforces
+the branch half, not AWS:
+
+Settings → Environments → `production` → Deployment branches → *Selected
+branches* → add `master`.
+
+Without that rule the trust policy is looser than it looks. Note this lives in
+GitHub's UI rather than in this repo — it is the one piece of the production
+access rules that a diff here will not show you.
 
 ## Notes
 
