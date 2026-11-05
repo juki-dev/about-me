@@ -54,11 +54,15 @@ function lineOf(raw, src) {
 
 // Each post is a folder holding its index.md; folders starting with "_" are
 // author scratch space and are skipped.
-const folders = ['blog', 'projects'].flatMap((collection) =>
-  readdirSync(join(root, 'content', collection), { withFileTypes: true })
+// A collection folder may not exist at all (git does not track empty
+// directories), which just means there are no entries yet.
+const folders = ['blog', 'projects'].flatMap((collection) => {
+  const collectionDir = join(root, 'content', collection)
+  if (!existsSync(collectionDir)) return []
+  return readdirSync(collectionDir, { withFileTypes: true })
     .filter((entry) => entry.isDirectory() && !entry.name.startsWith('_'))
-    .map((entry) => `content/${collection}/${entry.name}`),
-)
+    .map((entry) => `content/${collection}/${entry.name}`)
+})
 
 // A folder without an index.md is a post that silently never renders.
 const orphans = folders.filter((folder) => !existsSync(join(root, folder, 'index.md')))
